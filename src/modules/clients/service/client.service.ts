@@ -3,8 +3,8 @@ import { ClientRepository } from "../repository/client.repository";
 export class ClientService {
   private clientRepository: ClientRepository;
 
-    constructor() {
-        this.clientRepository = new ClientRepository();
+    constructor(clientRepository: ClientRepository) {
+        this.clientRepository = clientRepository;
     }
 
   async create(data: {
@@ -14,10 +14,10 @@ export class ClientService {
     phone: string;
     observations?: string;
   }) {
-    return await this.clientRepository.create(data);
+    return this.clientRepository.create(data);
   }
 
-  async list(userId: string) {
-    return await this.clientRepository.findManyByUserId(userId);
+   list(userId: string) {
+    return this.clientRepository.findManyByUserId(userId);
   }
 }
