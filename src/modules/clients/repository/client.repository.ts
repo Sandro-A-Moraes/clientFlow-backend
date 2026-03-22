@@ -1,4 +1,4 @@
-import {prisma} from '../../../lib/prisma';
+import { prisma } from "../../../lib/prisma";
 
 export class ClientRepository {
   async create(data: {
@@ -14,9 +14,8 @@ export class ClientRepository {
         id: true,
         name: true,
         email: true,
-        phone: true
+        phone: true,
       },
-
     });
   }
 
@@ -26,7 +25,7 @@ export class ClientRepository {
         userId,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
