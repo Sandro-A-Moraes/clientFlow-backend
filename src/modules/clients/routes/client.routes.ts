@@ -12,5 +12,6 @@ const clientRoutes = Router();
 
 clientRoutes.post("/", authMiddleware.authenticate, clientController.create);
 clientRoutes.get("/", authMiddleware.authenticate, clientController.list);
+clientRoutes.get("/:id", authMiddleware.authenticate, clientController.getById);
 
 export { clientRoutes };
