@@ -8,7 +8,7 @@ export class ClientRepository {
     phone: string;
     observations?: string;
   }) {
-    return await prisma.client.create({
+    return prisma.client.create({
       data,
       select: {
         id: true,
@@ -20,7 +20,7 @@ export class ClientRepository {
   }
 
   async findMany(userId: string, search?: string) {
-    return await prisma.client.findMany({
+    return prisma.client.findMany({
       where: {
         userId,
         ...(search && {
