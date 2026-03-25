@@ -3,9 +3,9 @@ import { ClientRepository } from "../repository/client.repository";
 export class ClientService {
   private clientRepository: ClientRepository;
 
-    constructor(clientRepository: ClientRepository) {
-        this.clientRepository = clientRepository;
-    }
+  constructor(clientRepository: ClientRepository) {
+    this.clientRepository = clientRepository;
+  }
 
   async create(data: {
     userId: string;
@@ -17,7 +17,7 @@ export class ClientService {
     return this.clientRepository.create(data);
   }
 
-   list(userId: string) {
+  list(userId: string) {
     return this.clientRepository.findManyByUserId(userId);
   }
 }
