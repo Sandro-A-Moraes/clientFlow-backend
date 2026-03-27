@@ -38,7 +38,7 @@ export class AppointmentController {
             return res.status(400).json({ message: "Invalid client ID" });
         }
 
-        const userId = req.userId!;
+        const userId = req.userId;
 
         if(!userId) {
             return res.status(401).json({ message: "Unauthorized" });
