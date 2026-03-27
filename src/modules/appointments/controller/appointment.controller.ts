@@ -36,11 +36,21 @@ export class AppointmentController {
   };
 
   public listByClientId = async (req: AuthenticatedRequest, res: Response) => {
-    const clientId  = req.query.clientId;
+    const clientIdParam  = req.query.clientId;
 
-    if (typeof clientId !== "string") {
-      return res.status(400).json({ message: "Invalid client ID" });
+    let clientId: string;
+
+    if (typeof clientIdParam === "string") {
+      clientId = clientIdParam;
+    } else if (
+      Array.isArray(clientIdParam) &&
+      typeof clientIdParam[0] === "string"
+    ) {
+      clientId = clientIdParam[0];
+    } else {
+      return res.status(400).json({ message: "Invalid clientId parameter" });
     }
+
 
     const userId = req.userId;
 
