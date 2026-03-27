@@ -1,10 +1,13 @@
 import { AppointmentRepository } from "../repository/appointment.repository";
+import { ClientRepository } from "../../clients/repository/client.repository";
 
 export class AppointmentService {
     private appointmentRepository: AppointmentRepository;
+    private clientRepository: ClientRepository;
 
-    constructor(appointmentRepository: AppointmentRepository) {
+    constructor(appointmentRepository: AppointmentRepository, clientRepository: ClientRepository) {
         this.appointmentRepository = appointmentRepository;
+        this.clientRepository = clientRepository;
     }
 
     async create(data: {
@@ -14,6 +17,12 @@ export class AppointmentService {
         status: string;
         notes?: string;
     }) {
+        const client = await this.clientRepository.findByIdAndUserId(data.clientId, "");
+
+        if(!client) {
+            throw new Error("Client not found");
+        }
+        
         return this.appointmentRepository.create(data);
     }
 
