@@ -27,7 +27,13 @@ export class AppointmentService {
         return this.appointmentRepository.create(data);
     }
 
-    async listByClientId(clientId: string) {
+    async listByClientId(clientId: string, userId: string) {
+        const client = await this.clientRepository.findByIdAndUserId(clientId, userId);
+
+        if(!client) {
+            throw new Error("Client not found");
+        }
+
         return this.appointmentRepository.findManyByClientId(clientId);
     }
 }
