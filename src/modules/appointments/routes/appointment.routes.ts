@@ -23,7 +23,7 @@ appointmentRouter.post(
 );
 
 appointmentRouter.get(
-  "/appointments?clientId=abc",
+  "/",
   authMiddleware.authenticate,
   appointmentController.listByClientId,
 );
