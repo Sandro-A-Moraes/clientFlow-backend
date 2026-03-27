@@ -19,6 +19,7 @@ export class AppointmentController {
 
     try {
       const appointment = await this.appointmentService.create({
+        userId,
         clientId,
         description,
         scheduledAt: new Date(scheduledAt),
@@ -49,7 +50,7 @@ export class AppointmentController {
 
     try {
       const appointments =
-        await this.appointmentService.listByClientId(clientId);
+        await this.appointmentService.listByClientId(clientId, userId);
       return res.status(200).json(appointments);
     } catch (error) {
       if (error instanceof Error) {
