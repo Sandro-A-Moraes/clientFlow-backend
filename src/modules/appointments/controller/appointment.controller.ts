@@ -11,7 +11,7 @@ export class AppointmentController {
 
   public create = async (req: AuthenticatedRequest, res: Response) => {
     const { clientId, description, scheduledAt, status, notes } = req.body;
-    const userId = req.userId!;
+    const userId = req.userId;
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
