@@ -25,14 +25,27 @@ model User {
 model Client {
   id        String   @id @default(uuid())
   name      String
-  email     String? 
+  email     String 
   phone     String
-  observations String?
+  notes     String?
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  appointments Appointment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([email, userId])
 
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  scheduledAt      DateTime
+  description String
+  status      String
+  notes     String?
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

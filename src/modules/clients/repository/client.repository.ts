@@ -6,7 +6,7 @@ export class ClientRepository {
     name: string;
     email: string;
     phone: string;
-    observations?: string;
+    notes?: string;
   }) {
     return prisma.client.create({
       data,
@@ -15,6 +15,7 @@ export class ClientRepository {
         name: true,
         email: true,
         phone: true,
+        notes: true,
       },
     });
   }
