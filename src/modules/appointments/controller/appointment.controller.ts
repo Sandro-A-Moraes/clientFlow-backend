@@ -36,7 +36,7 @@ export class AppointmentController {
   };
 
   public listByClientId = async (req: AuthenticatedRequest, res: Response) => {
-    const { clientId } = req.params;
+    const clientId  = req.query.clientId;
 
     if (typeof clientId !== "string") {
       return res.status(400).json({ message: "Invalid client ID" });
