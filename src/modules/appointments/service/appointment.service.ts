@@ -24,7 +24,13 @@ export class AppointmentService {
             throw new Error("Client not found");
         }
 
-        return this.appointmentRepository.create(data);
+        return this.appointmentRepository.create({
+            clientId: data.clientId,
+            description: data.description,
+            scheduledAt: data.scheduledAt,
+            status: data.status,
+            ...(data.notes !== undefined && { notes: data.notes }),
+        });
     }
 
     async listByClientId(clientId: string, userId: string) {
