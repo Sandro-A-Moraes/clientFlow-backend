@@ -24,6 +24,14 @@ export class AppointmentService {
             throw new Error("Client not found");
         }
 
+        if(!data.userId) {
+            throw new Error("Unauthorized");
+        }
+
+        if ( !data.clientId || !data.description || !data.scheduledAt || !data.status) {
+            throw new Error("Missing required fields");
+        }
+
         return this.appointmentRepository.create({
             clientId: data.clientId,
             description: data.description,
