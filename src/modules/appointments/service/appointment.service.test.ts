@@ -40,4 +40,37 @@ describe("AppointmentService", () => {
       status: "pending",
     });
   });
+
+  it("should throw error when client does not belong to user", async () => {
+    const clientRepository = {
+      findByIdAndUserId: vi.fn().mockResolvedValue(null),
+    };
+
+    const appointmentRepository = {
+      create: vi.fn(),
+    };
+
+    const service = new AppointmentService(
+      clientRepository as any,
+      appointmentRepository as any,
+    );
+
+    const input = {
+      userId: "user-1",
+      clientId: "client-1",
+      description: "Consulta",
+      scheduledAt: "2026-03-30T10:00:00.000Z",
+      status: "pending",
+    };
+
+    await expect(service.create(input)).rejects.toThrow("Client not found")
+
+    expect(clientRepository.findByIdAndUserId).toHaveBeenCalledWith(
+      "client-1",
+      "user-1",
+    );
+
+    expect(appointmentRepository.create).not.toHaveBeenCalled();
+
+  });
 });
