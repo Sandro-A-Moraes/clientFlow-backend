@@ -91,7 +91,7 @@ describe("AppointmentService", () => {
       status: "pending",
     };
 
-    await expect(service.create(input)).rejects.toThrow("Invalid date");
+    await expect(service.create(input)).rejects.toThrow("Invalid scheduledAt date");
 
     expect(clientRepository.findByIdAndUserId).not.toHaveBeenCalled();
 
