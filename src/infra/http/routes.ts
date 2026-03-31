@@ -17,6 +17,8 @@ router.use("/appointments", appointmentRouter);
  *   get:
  *     summary: Check API health
  *     description: Endpoint to check if the API is running and healthy
+ *     tags:
+ *       - Health
  *     responses:
  *       200:
  *         description: API is healthy
