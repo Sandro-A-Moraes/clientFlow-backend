@@ -3,7 +3,6 @@ import { authRoutes } from "../../modules/auth/routes/auth.routes";
 import { clientRoutes } from "../../modules/clients/routes/client.routes";
 import { appointmentRouter } from "../../modules/appointments/routes/appointment.routes";
 
-
 const router = Router();
 
 router.use("/auth", authRoutes);
