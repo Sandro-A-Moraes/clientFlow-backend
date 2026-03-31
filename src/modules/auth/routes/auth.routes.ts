@@ -63,7 +63,7 @@ authRoutes.post("/register", authController.register);
  *             schema:
  *               type: object
  *               properties:
- *                 error:
+ *                 message:
  *                   type: string
  *                   example: Invalid credentials
 
