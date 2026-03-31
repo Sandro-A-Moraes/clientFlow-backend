@@ -17,7 +17,7 @@ authRoutes.post("/register", authController.register);
  * /auth/login:
  *   post:
  *     summary: Login user
- *     description: Endpoint to login a user
+ *     description: Authenticates a user and returns a JWT token
  *     tags:
  *       - Auth
  *     requestBody:
@@ -26,9 +26,13 @@ authRoutes.post("/register", authController.register);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - email
+ *               - password
  *             properties:
  *               email:
  *                 type: string
+ *                 format: email
  *                 example: john.doe@example.com
  *               password:
  *                 type: string
@@ -43,8 +47,8 @@ authRoutes.post("/register", authController.register);
  *               properties:
  *                 token:
  *                   type: string
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzNDU2Nzg5MCIsImlhdCI6MTUxNjIzOTA2Mn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    *                 user:
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *                 user:
  *                   type: object
  *                   properties:
  *                     id:
@@ -53,12 +57,12 @@ authRoutes.post("/register", authController.register);
  *                     email:
  *                       type: string
  *                       example: john.doe@example.com
-    *                     name:
+ *                     name:
  *                       type: string
  *                       example: John Doe
-    *       401:
+ *       401:
  *         description: Invalid credentials
-    *         content:
+ *         content:
  *           application/json:
  *             schema:
  *               type: object
@@ -66,7 +70,6 @@ authRoutes.post("/register", authController.register);
  *                 message:
  *                   type: string
  *                   example: Invalid credentials
-
  */
 
 authRoutes.post("/login", authController.login);
