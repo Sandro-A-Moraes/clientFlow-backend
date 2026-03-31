@@ -12,7 +12,7 @@ router.use("/clients", clientRoutes);
 router.use("/appointments", appointmentRouter);
 
 /**
- * @swagger
+ * @openapi
  * /health:
  *   get:
  *     summary: Check API health
@@ -22,15 +22,14 @@ router.use("/appointments", appointmentRouter);
  *     responses:
  *       200:
  *         description: API is healthy
-  *         content:
-  *           application/json:
-  *             schema:
-  *               type: object
-  *               properties:
-  *                 status:
-  *                   type: string
-  *                   example: ok
-
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: ok
  */
 
 router.get("/health", (req, res) => {
