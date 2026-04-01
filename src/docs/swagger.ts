@@ -14,6 +14,7 @@ const options: Options = {
       },
       license: {
         name: "MIT",
+        url: "https://opensource.org/licenses/MIT",
       },
     },
     servers: [
