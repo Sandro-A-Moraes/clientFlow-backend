@@ -29,6 +29,7 @@ const clientRoutes = Router();
  *             required:
  *               - name
  *               - email
+ *               - phone
  *             properties:
  *               name:
  *                 type: string
@@ -37,6 +38,12 @@ const clientRoutes = Router();
  *                 type: string
  *                 format: email
  *                 example: john.doe@example.com
+ *               phone:
+ *                 type: string
+ *                 example: (123) 456-7890
+ *               observations:
+ *                 type: string
+ *                 example: Client with special requirements
  *     responses:
  *       201:
  *         description: Client created successfully
@@ -57,8 +64,33 @@ const clientRoutes = Router();
  *                     email:
  *                       type: string
  *                       example: john.doe@example.com
+ *                     phone:
+ *                       type: string
+ *                       example: (123) 456-7890
+ *                     observations:
+ *                       type: string
+ *                       example: Client with special requirements
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid client data
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
  */
-
 
 clientRoutes.post("/", authMiddleware.authenticate, clientController.create);
 clientRoutes.get("/", authMiddleware.authenticate, clientController.list);
