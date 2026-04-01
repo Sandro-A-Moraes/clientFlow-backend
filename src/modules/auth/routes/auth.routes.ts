@@ -18,6 +18,7 @@ const authMiddleware = new AuthMiddleware();
  *     description: Creates a new user account
  *     tags:
  *       - Auth
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:
@@ -85,6 +86,7 @@ authRoutes.post("/register", authController.register);
  *     description: Authenticates a user and returns a JWT token
  *     tags:
  *       - Auth
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:
