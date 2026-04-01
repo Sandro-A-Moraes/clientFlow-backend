@@ -1,4 +1,4 @@
-import swaggerJsdoc, { type Options} from "swagger-jsdoc";
+import swaggerJsdoc, { type Options } from "swagger-jsdoc";
 
 const options: Options = {
   definition: {
@@ -20,6 +20,16 @@ const options: Options = {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
+        },
+      },
+      schemas: {
+        ErrorResponse: {
+          type: "object",
+          properties: {
+            message: {
+              type: "string",
+            },
+          },
         },
       },
     },
