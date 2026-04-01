@@ -6,22 +6,11 @@ const options: Options = {
     info: {
       title: "ClientFlow API",
       version: "1.0.0",
-      description: `
-        API para gerenciamento de clientes, autenticação de usuários e agendamentos.
-
-        ## Recursos principais
-        - Autenticação com JWT
-        - Cadastro e consulta de clientes
-        - Gerenciamento de agendamentos
-
-        ## Autenticação
-        As rotas protegidas exigem um token JWT no header:
-
-        \`Authorization: Bearer <token>\`
-      `,
+      description:
+        "API for authentication, client management, and appointments. Protected routes require a JWT token in the Authorization header: Bearer <token>.",
       contact: {
-        name: "Equipe ClientFlow",
-        email: "suporte@clientflow.com",
+        name: "ClientFlow Team",
+        email: "support@clientflow.com",
       },
       license: {
         name: "MIT",
@@ -30,29 +19,29 @@ const options: Options = {
     servers: [
       {
         url: "http://localhost:3000",
-        description: "Ambiente de desenvolvimento",
+        description: "Development",
       },
       {
         url: "https://api.clientflow.com",
-        description: "Ambiente de produção",
+        description: "Production",
       },
     ],
     tags: [
       {
         name: "Health",
-        description: "Verificação de saúde da API",
+        description: "API health check",
       },
       {
         name: "Auth",
-        description: "Endpoints de autenticação e sessão do usuário",
+        description: "Authentication and user session endpoints",
       },
       {
         name: "Clients",
-        description: "Gerenciamento de clientes",
+        description: "Client management",
       },
       {
         name: "Appointments",
-        description: "Gerenciamento de agendamentos",
+        description: "Appointment management",
       },
     ],
     components: {
@@ -61,7 +50,7 @@ const options: Options = {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
-          description: "Informe o token JWT no formato: Bearer <token>",
+          description: "Provide JWT token using: Bearer <token>",
         },
       },
       schemas: {
@@ -71,7 +60,7 @@ const options: Options = {
           properties: {
             message: {
               type: "string",
-              example: "An unexpected error occurred",
+              example: "Invalid credentials",
             },
           },
         },
@@ -194,6 +183,10 @@ const options: Options = {
               type: "string",
               example: "+55 91 99999-9999",
             },
+            notes: {
+              type: "string",
+              example: "Prefers morning appointments",
+            },
           },
         },
 
@@ -218,24 +211,124 @@ const options: Options = {
               type: "string",
               example: "+55 91 99999-9999",
             },
+            notes: {
+              type: "string",
+              nullable: true,
+              example: "Prefers morning appointments",
+            },
+            userId: {
+              type: "string",
+              example: "usr_001",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-03-30T10:00:00.000Z",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-03-30T10:00:00.000Z",
+            },
           },
         },
 
-        ClientListResponse: {
+        AppointmentInput: {
           type: "object",
+          required: ["clientId", "description", "scheduledAt", "status"],
           properties: {
-            clients: {
-              type: "array",
-              items: {
-                $ref: "#/components/schemas/ClientResponse",
-              },
+            clientId: {
+              type: "string",
+              example: "clt_001",
+            },
+            description: {
+              type: "string",
+              example: "Initial consultation",
+            },
+            scheduledAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-05T14:00:00.000Z",
+            },
+            status: {
+              type: "string",
+              example: "pending",
+            },
+            notes: {
+              type: "string",
+              example: "Client requested remote meeting",
+            },
+          },
+        },
+
+        AppointmentResponse: {
+          type: "object",
+          required: [
+            "id",
+            "clientId",
+            "description",
+            "scheduledAt",
+            "status",
+            "createdAt",
+            "updatedAt",
+          ],
+          properties: {
+            id: {
+              type: "string",
+              example: "apt_001",
+            },
+            clientId: {
+              type: "string",
+              example: "clt_001",
+            },
+            description: {
+              type: "string",
+              example: "Initial consultation",
+            },
+            scheduledAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-05T14:00:00.000Z",
+            },
+            status: {
+              type: "string",
+              example: "pending",
+            },
+            notes: {
+              type: "string",
+              nullable: true,
+              example: "Client requested remote meeting",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-03-30T10:00:00.000Z",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-03-30T10:00:00.000Z",
+            },
+          },
+        },
+
+        MeResponse: {
+          type: "object",
+          required: ["user", "success"],
+          properties: {
+            user: {
+              $ref: "#/components/schemas/User",
+            },
+            success: {
+              type: "boolean",
+              example: true,
             },
           },
         },
       },
       responses: {
         BadRequest: {
-          description: "Requisição inválida",
+          description: "Bad request",
           content: {
             "application/json": {
               schema: {
@@ -245,7 +338,7 @@ const options: Options = {
           },
         },
         Unauthorized: {
-          description: "Usuário não autenticado",
+          description: "Unauthorized",
           content: {
             "application/json": {
               schema: {
@@ -255,7 +348,7 @@ const options: Options = {
           },
         },
         NotFound: {
-          description: "Recurso não encontrado",
+          description: "Resource not found",
           content: {
             "application/json": {
               schema: {
@@ -265,7 +358,7 @@ const options: Options = {
           },
         },
         Conflict: {
-          description: "Conflito de dados",
+          description: "Data conflict",
           content: {
             "application/json": {
               schema: {
