@@ -6,23 +6,21 @@ import { appointmentRouter } from "../../modules/appointments/routes/appointment
 const router = Router();
 
 router.use("/auth", authRoutes);
-
 router.use("/clients", clientRoutes);
-
 router.use("/appointments", appointmentRouter);
 
 /**
  * @openapi
  * /health:
  *   get:
- *     summary: Check API health
- *     description: Endpoint to check if the API is running and healthy
+ *     summary: Verifica o status da API
+ *     description: Retorna uma resposta simples para confirmar que a API está ativa e operacional.
  *     tags:
  *       - Health
  *     security: []
  *     responses:
  *       200:
- *         description: API is healthy
+ *         description: API em funcionamento
  *         content:
  *           application/json:
  *             schema:
@@ -32,7 +30,6 @@ router.use("/appointments", appointmentRouter);
  *                   type: string
  *                   example: ok
  */
-
 router.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
