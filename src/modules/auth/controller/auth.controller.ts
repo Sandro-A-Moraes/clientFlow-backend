@@ -17,7 +17,7 @@ export class AuthController {
       if (error instanceof Error) {
         res.status(409).json({ message: error.message });
       } else {
-        res.status(400).json({ message: "Erro desconhecido" });
+        res.status(400).json({ message: "Unknown error" });
       }
     }
   };
@@ -30,14 +30,14 @@ export class AuthController {
       if (error instanceof Error) {
         res.status(401).json({ message: error.message });
       } else {
-        res.status(400).json({ message: "Erro desconhecido" });
+        res.status(400).json({ message: "Unknown error" });
       }
     }
   };
 
   public me = async (req: AuthenticatedRequest, res: Response) => {
     if (!req.userId) {
-      res.status(401).json({ message: "Usuário não autenticado" });
+      res.status(401).json({ message: "Unauthorized" });
       return;
     }
     const userId = req.userId;
@@ -49,7 +49,7 @@ export class AuthController {
       if (error instanceof Error) {
         res.status(404).json({ message: error.message });
       } else {
-        res.status(400).json({ message: "Erro desconhecido" });
+        res.status(400).json({ message: "Unknown error" });
       }
     }
   };
