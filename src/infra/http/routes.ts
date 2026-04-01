@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authRoutes } from "../../modules/auth/routes/auth.routes";
-import { clientRoutes } from "../../modules/clients/routes/client.routes";
-import { appointmentRouter } from "../../modules/appointments/routes/appointment.routes";
+import { authRoutes } from "../../modules/auth/routes/auth.routes.js";
+import { clientRoutes } from "../../modules/clients/routes/client.routes.js";
+import { appointmentRouter } from "../../modules/appointments/routes/appointment.routes.js";
 
 const router = Router();
 
