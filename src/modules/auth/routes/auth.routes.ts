@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import { UserRepository } from "../../user/repository/user.repository";
 import { AuthController } from "../controller/auth.controller";
 import { AuthService } from "../service/auth.service";
@@ -14,169 +14,85 @@ const authMiddleware = new AuthMiddleware();
  * @openapi
  * /auth/register:
  *   post:
- *     summary: Register a new user
- *     description: Creates a new user account
+ *     summary: Registrar novo usuário
+ *     description: Cria uma nova conta de usuário no sistema.
  *     tags:
  *       - Auth
  *     security: []
  *     requestBody:
  *       required: true
+ *       description: Dados necessários para criação da conta
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *              - name
- *               - email
- *               - password
- *             properties:
- *               name:
- *                 type: string
- *                 example: John Doe
- *               email:
- *                 type: string
- *                 format: email
- *                 example: john.doe@example.com
- *               password:
- *                 type: string
- *                 example: password123
+ *             $ref: '#/components/schemas/RegisterInput'
  *     responses:
  *       201:
- *         description: User created successfully
+ *         description: Usuário criado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: 1234567890
- *                     name:
- *                       type: string
- *                       example: John Doe
- *                     email:
- *                       type: string
- *                       example: john.doe@example.com
-    *                     success:
- *                       type: boolean
- *                       example: true
-    *       409:
- *         description: User already exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: User with this email already exists
-
+ *               $ref: '#/components/schemas/RegisterResponse'
+ *       409:
+ *         $ref: '#/components/responses/Conflict'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
  */
-
 authRoutes.post("/register", authController.register);
 
 /**
  * @openapi
  * /auth/login:
  *   post:
- *     summary: Login user
- *     description: Authenticates a user and returns a JWT token
+ *     summary: Autenticar usuário
+ *     description: Valida as credenciais do usuário e retorna um token JWT.
  *     tags:
  *       - Auth
  *     security: []
  *     requestBody:
  *       required: true
+ *       description: Credenciais de acesso
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - email
- *               - password
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 example: john.doe@example.com
- *               password:
- *                 type: string
- *                 example: password123
+ *             $ref: '#/components/schemas/LoginInput'
  *     responses:
  *       200:
- *         description: User logged in successfully
+ *         description: Login realizado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: 1234567890
- *                     email:
- *                       type: string
- *                       example: john.doe@example.com
- *                     name:
- *                       type: string
- *                       example: John Doe
- *                     success:
- *                       type: boolean
- *                       example: true
+ *               $ref: '#/components/schemas/AuthResponse'
  *       401:
- *         description: Invalid credentials
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Invalid credentials
+ *         $ref: '#/components/responses/Unauthorized'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
  */
-
 authRoutes.post("/login", authController.login);
 
 /**
  * @openapi
  * /auth/me:
  *   get:
- *     summary: Get current user
- *     description: Retrieves the details of the currently authenticated user
+ *     summary: Obter usuário autenticado
+ *     description: Retorna os dados do usuário associado ao token JWT enviado na requisição.
  *     tags:
  *       - Auth
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: User details retrieved successfully
+ *         description: Dados do usuário retornados com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: 1234567890
- *                     name:
- *                       type: string
- *                       example: John Doe
- *                     email:
- *                       type: string
- *                       example: john.doe@example.com
+ *                   $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
  */
-
-
 authRoutes.get("/me", authMiddleware.authenticate, authController.me);
 
 export { authRoutes };
