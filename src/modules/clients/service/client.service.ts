@@ -24,5 +24,4 @@ export class ClientService {
   async getById(clientId: string, userId: string) {
     return this.clientRepository.findByIdAndUserId(clientId, userId);
   }
-
 }

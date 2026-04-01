@@ -49,10 +49,13 @@ export class ClientController {
       const searchParam = req.query.search;
 
       let search: string | undefined;
-      
-      if(typeof searchParam === "string") {
+
+      if (typeof searchParam === "string") {
         search = searchParam;
-      } else if (Array.isArray(searchParam) && typeof searchParam[0] === "string") {
+      } else if (
+        Array.isArray(searchParam) &&
+        typeof searchParam[0] === "string"
+      ) {
         search = searchParam[0];
       } else {
         search = undefined;
@@ -101,5 +104,4 @@ export class ClientController {
       }
     }
   };
-
 }
