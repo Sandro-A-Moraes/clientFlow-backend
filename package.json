@@ -8,7 +8,9 @@
     "test:watch": "vitest",
     "dev": "tsx watch src/infra/http/server.ts",
     "build": "tsc",
-    "start": "node dist/infra/http/server.js"
+    "start": "node dist/infra/http/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:deploy": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
