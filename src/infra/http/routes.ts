@@ -13,14 +13,14 @@ router.use("/appointments", appointmentRouter);
  * @openapi
  * /health:
  *   get:
- *     summary: Verifica o status da API
- *     description: Retorna uma resposta simples para confirmar que a API está ativa e operacional.
+ *     summary: Check API health
+ *     description: Returns a simple status payload.
  *     tags:
  *       - Health
  *     security: []
  *     responses:
  *       200:
- *         description: API em funcionamento
+ *         description: API is healthy
  *         content:
  *           application/json:
  *             schema:
