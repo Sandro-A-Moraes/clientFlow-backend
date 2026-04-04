@@ -20,6 +20,7 @@ model User {
   name      String
   email     String   @unique
   password  String
+  termsAccepted Boolean @default(false)
   clients   Client[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
