@@ -11,6 +11,7 @@ describe("AuthService", () => {
         id: "user-1",
         name: "John Doe",
         email: "user@example.com",
+        termsAccepted: true,
       }),
     };
 
@@ -22,6 +23,7 @@ describe("AuthService", () => {
       name: "John Doe",
       email: "user@example.com",
       password: "password",
+      termsAccepted: true,
     };
 
     const result = await authService.register(input);
@@ -30,6 +32,7 @@ describe("AuthService", () => {
       id: "user-1",
       name: "John Doe",
       email: "user@example.com",
+      termsAccepted: true,
     });
 
     expect(userRepository.findByEmail).toHaveBeenCalledWith("user@example.com");
@@ -39,6 +42,7 @@ describe("AuthService", () => {
       name: "John Doe",
       email: "user@example.com",
       password: "hashed-password",
+      termsAccepted: true,
     });
 
     expect(bcrypt.hash).toHaveBeenCalledWith("password", expect.any(Number));
@@ -51,6 +55,7 @@ describe("AuthService", () => {
         name: "John Doe",
         email: "user@example.com",
         password: "hashed-password",
+        termsAccepted: true,
       }),
       findById: vi.fn().mockResolvedValue(null),
       create: vi.fn(),
@@ -68,7 +73,7 @@ describe("AuthService", () => {
 
     expect(result).toEqual({
       token: expect.any(String),
-      user: { id: "user-1", name: "John Doe", email: "user@example.com" },
+      user: { id: "user-1", name: "John Doe", email: "user@example.com"},
     });
     expect(userRepository.findByEmail).toHaveBeenCalledWith("user@example.com");
     expect(bcrypt.compare).toHaveBeenCalledWith("password", "hashed-password");
