@@ -3,10 +3,12 @@ import { UserRepository } from "../../user/repository/user.repository.js";
 import { AuthController } from "../controller/auth.controller.js";
 import { AuthService } from "../service/auth.service.js";
 import { AuthMiddleware } from "../middleware/auth.middleware.js";
+import { RefreshTokenRepository } from "../repository/refreshToken.repository.js";
 
 const authRoutes = Router();
 const userRepository = new UserRepository();
-const authService = new AuthService(userRepository);
+const refreshTokenRepository = new RefreshTokenRepository();
+const authService = new AuthService(userRepository, refreshTokenRepository);
 const authController = new AuthController(authService);
 const authMiddleware = new AuthMiddleware();
 
