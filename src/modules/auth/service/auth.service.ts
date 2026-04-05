@@ -4,8 +4,9 @@ import {
 } from "../../../shared/utils/generateToken.js";
 import { UserRepository } from "../../user/repository/user.repository.js";
 import bcrypt from "bcrypt";
-import crypto from "crypto";
+import crypto, { hash } from "crypto";
 import type { RefreshTokenRepository } from "../repository/refreshToken.repository.js";
+import { hashToken } from "../../../shared/utils/hashToken.js";
 
 export class AuthService {
   private userRepository: UserRepository;
@@ -64,10 +65,7 @@ export class AuthService {
       name: user.name,
     });
 
-    const tokenHash = crypto
-      .createHash("sha256")
-      .update(refreshToken)
-      .digest("hex");
+    const tokenHash = hashToken(refreshToken);
 
     await this.refreshTokenRepository.create({
       userId: user.id,
