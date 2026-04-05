@@ -72,7 +72,65 @@ authRoutes.post("/register", authController.register);
  */
 authRoutes.post("/login", authController.login);
 
+/**
+ * @openapi
+ * /auth/logout:
+ *   post:
+ *     summary: Logout user
+ *     description: Revokes the refresh token and logs out the user.
+ *     tags:
+ *       - Auth
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       description: Refresh token
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RefreshTokenInput'
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/LogoutResponse'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+
+ */
 authRoutes.post("/logout", authController.logout);
+
+/**
+ * @openapi
+ * /auth/refresh:
+ *   post:
+ *     summary: Refresh access token
+ *     description: Generates a new access token using a valid refresh token.
+ *     tags:
+ *       - Auth
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       description: Refresh token
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RefreshTokenInput'
+ *     responses:
+ *       200:
+ *         description: Token refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RefreshResponse'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ */
 
 authRoutes.post("/refresh", authController.refresh);
 
