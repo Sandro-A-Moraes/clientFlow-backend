@@ -80,6 +80,26 @@ export class AuthService {
       user: { id: user.id, name: user.name, email: user.email },
     };
   }
+
+  public async logout(refreshToken: string) {
+    if (!refreshToken) {
+      throw new Error("Refresh token is required");
+    }
+    const tokenHash = hashToken(refreshToken);
+    const storedToken = await this.refreshTokenRepository.findByTokenHash(tokenHash);
+
+    if (!storedToken) {
+      throw new Error("Invalid refresh token");
+    }
+
+    if (storedToken.revokedAt) {
+      throw new Error("Refresh token has been revoked");
+    }
+
+
+    await this.refreshTokenRepository.revokeByTokenHash(tokenHash);
+    return { success: true };
+  }
   
   public async refresh(refreshToken: string) {
     if (!refreshToken) {
