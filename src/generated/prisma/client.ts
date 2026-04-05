@@ -56,3 +56,8 @@ export type Client = Prisma.ClientModel
  * 
  */
 export type Appointment = Prisma.AppointmentModel
+/**
+ * Model RefreshToken
+ * 
+ */
+export type RefreshToken = Prisma.RefreshTokenModel
