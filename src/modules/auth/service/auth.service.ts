@@ -89,16 +89,8 @@ export class AuthService {
     const tokenHash = hashToken(refreshToken);
     const storedToken = await this.refreshTokenRepository.findByTokenHash(tokenHash);
 
-    if (!storedToken) {
-      throw new Error("Invalid refresh token");
-    }
-
-    if(storedToken.revokedAt) {
-      throw new Error("Refresh token has been revoked");
-    }
-
-    if (storedToken.expiresAt < new Date()) {
-      throw new Error("Refresh token has expired");
+    if (!storedToken || storedToken.expiresAt < new Date() || storedToken.revokedAt) {
+      throw new Error("Invalid or expired refresh token");
     }
 
     const user = await this.userRepository.findById(storedToken.userId);
