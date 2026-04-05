@@ -142,15 +142,78 @@ const options: Options = {
 
         AuthResponse: {
           type: "object",
-          required: ["token", "user", "success"],
+          required: ["accessToken", "refreshToken", "user", "success"],
           properties: {
-            token: {
+            accessToken: {
               type: "string",
               example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              description: "JWT access token for API authentication",
+            },
+            refreshToken: {
+              type: "string",
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              description: "JWT refresh token for obtaining new access tokens",
             },
             user: {
               $ref: "#/components/schemas/User",
             },
+            success: {
+              type: "boolean",
+              example: true,
+            },
+          },
+        },
+
+        RefreshTokenInput: {
+          type: "object",
+          required: ["refreshToken"],
+          properties: {
+            refreshToken: {
+              type: "string",
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              description:
+                "The refresh token to use for obtaining a new access token",
+            },
+          },
+        },
+
+        RefreshResponse: {
+          type: "object",
+          required: ["accessToken", "refreshToken", "success"],
+          properties: {
+            accessToken: {
+              type: "string",
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              description: "New JWT access token",
+            },
+            refreshToken: {
+              type: "string",
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              description: "New JWT refresh token",
+            },
+            success: {
+              type: "boolean",
+              example: true,
+            },
+          },
+        },
+
+        LogoutInput: {
+          type: "object",
+          required: ["refreshToken"],
+          properties: {
+            refreshToken: {
+              type: "string",
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              description: "The refresh token to revoke",
+            },
+          },
+        },
+
+        LogoutResponse: {
+          type: "object",
+          required: ["success"],
+          properties: {
             success: {
               type: "boolean",
               example: true,
