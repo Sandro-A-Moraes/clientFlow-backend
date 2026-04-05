@@ -40,7 +40,7 @@ export class AuthController {
 
     try {
       const result = await this.authService.logout(refreshToken);
-      res.status(200).json({ ...result, success: true });
+      res.status(200).json({success: true });
     } catch (error: unknown) {
       if (error instanceof Error) {
         res.status(401).json({ message: error.message });
