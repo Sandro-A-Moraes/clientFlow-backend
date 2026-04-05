@@ -15,11 +15,13 @@ export class RefreshTokenRepository {
     });
   }
 
-  public async deleteByTokenHash(tokenHash: string) {
-    return await prisma.refreshToken.delete({
+  public async revokeByTokenHash(tokenHash: string) {
+    return await prisma.refreshToken.update({
       where: {
         tokenHash,
-      },
+      }, data: {
+        revokedAt: new Date(),
+      }
     });
   }
 }
