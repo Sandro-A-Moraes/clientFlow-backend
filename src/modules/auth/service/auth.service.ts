@@ -1,12 +1,22 @@
-import { generateAccessToken, generateRefreshToken } from "../../../shared/utils/generateToken.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../../shared/utils/generateToken.js";
 import { UserRepository } from "../../user/repository/user.repository.js";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
+import type { RefreshTokenRepository } from "../repository/refreshToken.repository.js";
 
 export class AuthService {
   private userRepository: UserRepository;
+  private refreshTokenRepository: RefreshTokenRepository;
 
-  constructor(userRepository: UserRepository) {
+  constructor(
+    userRepository: UserRepository,
+    refreshTokenRepository: RefreshTokenRepository,
+  ) {
     this.userRepository = userRepository;
+    this.refreshTokenRepository = refreshTokenRepository;
   }
 
   public async register(data: {
@@ -54,11 +64,22 @@ export class AuthService {
       name: user.name,
     });
 
-    const tokenHash = await bcrypt.hash(refreshToken, 10);
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(refreshToken)
+      .digest("hex");
 
+    await this.refreshTokenRepository.create({
+      userId: user.id,
+      tokenHash,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
 
-
-    return { token: accessToken, refreshToken, user: { id: user.id, name: user.name, email: user.email } };
+    return {
+      token: accessToken,
+      refreshToken,
+      user: { id: user.id, name: user.name, email: user.email },
+    };
   }
 
   public async me(userId: string) {
