@@ -5,9 +5,100 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Company {
+  id          String     @id @default(uuid()) @db.Uuid
+  companyName String     @map("company_name")
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime   @updatedAt @map("updated_at") @db.Timestamptz(6)
+  employees   Employee[]
+  customers   Customer[]
+  contacts    Contact[]
+
+  @@map("company")
+}
+
+enum EmployeeRole {
+  ADMIN
+  SELLER
+
+  @@map("employee_role")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+
+  @@map("employee_status")
+}
+
+model Employee {
+  id           String         @id @default(uuid()) @db.Uuid
+  name         String
+  email        String         @unique
+  passwordHash String         @map("password_hash")
+  role         EmployeeRole   @default(SELLER)
+  status       EmployeeStatus @default(ACTIVE)
+  companyId    String         @map("company_id") @db.Uuid
+  company      Company        @relation(fields: [companyId], references: [id])
+  customers    Customer[]
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@unique([companyId, id])
+  @@map("employee")
+}
+
+enum CustomerType {
+  PERSON
+  COMPANY
+
+  @@map("customer_type")
+}
+
+model Customer {
+  id                 String       @id @default(uuid()) @db.Uuid
+  type               CustomerType @default(PERSON)
+  document           String?
+  name               String
+  email              String
+  phone              String
+  observation        String?
+  assignedEmployeeId String       @map("assigned_employee_id") @db.Uuid
+  assignedEmployee   Employee     @relation(fields: [companyId, assignedEmployeeId], references: [companyId, id])
+  companyId          String       @map("company_id") @db.Uuid
+  company            Company      @relation(fields: [companyId], references: [id])
+  contacts           Contact[]
+  deletedAt          DateTime?    @map("deleted_at") @db.Timestamptz(6)
+  createdAt          DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@unique([companyId, id])
+  @@unique([companyId, document])
+  @@unique([companyId, email])
+  @@map("customer")
+}
+
+model Contact {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  email       String
+  phone       String
+  jobTitle    String   @map("job_title")
+  mainContact Boolean  @default(false) @map("main_contact")
+  customerId  String   @map("customer_id") @db.Uuid
+  customer    Customer @relation(fields: [companyId, customerId], references: [companyId, id])
+  companyId   String   @map("company_id") @db.Uuid
+  company     Company  @relation(fields: [companyId], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([companyId, customerId])
+  @@map("contact")
 }
