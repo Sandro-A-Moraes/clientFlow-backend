@@ -10,5 +10,16 @@ export default defineConfig([
   {
     files: ['**/*.{js,ts}'],
     extends: [js.configs.recommended, tseslint.configs.recommended, prettier],
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+    },
   },
 ]);
